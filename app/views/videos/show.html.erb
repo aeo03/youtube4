@@ -12,7 +12,7 @@
 
 <video
     id="my-video"
-    class="video-js"
+    class="video-js vjs-big-play-centered"
     controls
     preload="auto"
     width="640"
@@ -24,11 +24,39 @@
 
 </video>
 
-<p>
-  <strong>Description:</strong>
-  <%= @video.description %>
-</p>
+<div id ="lineID" class="line">
+</div>
 
-<%= link_to 'Edit', edit_video_path(@video) %> |
-<%= link_to 'Back', videos_path %>
-<script src="https://vjs.zencdn.net/7.8.4/video.js"></script>
+<br/>
+<br/>
+<br/>
+<br/>
+
+<div>
+  <p>
+    <strong>Description:</strong>
+    <%= @video.description %>
+  </p>
+
+  <%= link_to 'Edit', edit_video_path(@video) %> |
+  <%= link_to 'Back', videos_path %>
+  <script src="https://vjs.zencdn.net/7.8.4/video.js"></script>
+
+  <div id="comment_submit">
+    <%= form_with model: [@video, @comment] do |f| %>
+    <%= f.text_field :body, id: "textbox" %>
+    <%= f.submit "Comment" %>
+    <% end %>
+  </div>
+
+  <div id="comment_pane">
+    <% @comments.each do |comment| %>
+        <%= render 'comments/comment', comment: comment %>
+    <% end %>
+  </div>
+</div>
+
+<%= javascript_pack_tag 'video_manipulation' %>
+
+<%= content_tag :div, class: 'email', data: {email: current_user.email} do %>
+<% end %>
